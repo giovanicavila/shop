@@ -15,7 +15,9 @@ function RouteComponent() {
 	return (
 		<div className="min-h-screen">
 			<Header />
-			<Outlet />
+			<div className="p-5">
+				<Outlet />
+			</div>
 		</div>
 	);
 }

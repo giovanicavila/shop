@@ -72,13 +72,6 @@
 	--sidebar-ring: oklch(0.408 0.123 38.172);
 }
 
-body {
-	margin: 0;
-	display: flex;
-	place-items: center;
-	min-width: 320px;
-	min-height: 100vh;
-}
 
 @media (prefers-color-scheme: light) {
 	:root {

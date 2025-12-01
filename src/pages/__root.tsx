@@ -6,6 +6,7 @@ import {
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import type { AuthContextType } from "@/context/auth";
+import { ThemeProvider } from "@/context/theme-provider";
 
 type RouterContext = {
 	auth: AuthContextType;
@@ -13,11 +14,11 @@ type RouterContext = {
 
 function RootLayout() {
 	return (
-		<>
+		<ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
 			<HeadContent />
 			<Outlet />
 			<TanStackRouterDevtools />
-		</>
+		</ThemeProvider>
 	);
 }
 
