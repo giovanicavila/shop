@@ -24,7 +24,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 	const [user, setUser] = useState<User | null>(null);
 	const [isLoading, setIsLoading] = useState(false);
 
-	//*TODO Usar minha funcao de login com tanstack query depois 
+	//*TODO Usar minha funcao de login com tanstack query depois
 	const login = async (email: string, _password: string): Promise<void> => {
 		setIsLoading(true);
 		try {

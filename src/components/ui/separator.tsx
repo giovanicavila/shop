@@ -1,3 +1,4 @@
+//biome-ignore lint: default shadcn component
 import * as SeparatorPrimitive from "@radix-ui/react-separator";
 import type * as React from "react";
 
