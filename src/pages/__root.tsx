@@ -2,6 +2,7 @@ import {
 	createRootRouteWithContext,
 	HeadContent,
 	Outlet,
+	redirect,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import type { AuthContextType } from "@/context/auth";
@@ -13,9 +14,7 @@ type RouterContext = {
 function RootLayout() {
 	return (
 		<>
-			<head>
-				<HeadContent />
-			</head>
+			<HeadContent />
 			<Outlet />
 			<TanStackRouterDevtools />
 		</>
@@ -23,22 +22,12 @@ function RootLayout() {
 }
 
 export const Route = createRootRouteWithContext<RouterContext>()({
-	head: () => ({
-		meta: [
-			{
-				name: "description",
-				content: "this is a pizza shop management",
-			},
-			{
-				title: "Pizza Shop",
-			},
-		],
-		links: [
-			{
-				rel: "",
-				href: "/",
-			},
-		],
-	}),
+	beforeLoad: ({ context, location }) => {
+		if (location.pathname === "/") {
+			throw redirect({
+				to: context.auth.isAuthenticated ? "/dashboard" : "/login",
+			});
+		}
+	},
 	component: RootLayout,
 });

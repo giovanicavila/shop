@@ -1,87 +1,106 @@
-import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
+import { createFileRoute, Link, redirect } from "@tanstack/react-router";
+import { Pizza } from "lucide-react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
 import { Button } from "@/components/ui/button";
-import { useAuth } from "@/context/auth";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 export const Route = createFileRoute("/(login)/login")({
 	beforeLoad: ({ context }) => {
 		if (context.auth.isAuthenticated) {
-			throw redirect({ to: "/" });
+			throw redirect({ to: "/dashboard" });
 		}
 	},
 	component: RouteComponent,
+	head: () => ({
+		meta: [
+			{
+				title: "Pizza Shop | Login",
+			},
+			{
+				name: "description",
+				content: "Acesse o painel de vendas da Pizza Shop",
+			},
+		],
+	}),
 });
 
+const signInForm = z.object({
+	email: z.email(),
+});
+
+type SignInForm = z.infer<typeof signInForm>;
+
 function RouteComponent() {
-	const { login, isLoading } = useAuth();
-	const navigate = useNavigate();
-	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
-	const [error, setError] = useState("");
+	const {
+		register,
+		handleSubmit,
+		formState: { isSubmitting },
+	} = useForm<SignInForm>();
 
-	const handleSubmit = async (e: React.FormEvent) => {
-		e.preventDefault();
-		setError("");
-
-		try {
-			await login(email, password);
-			await navigate({ to: "/" });
-		} catch {
-			setError("Erro ao fazer login. Tente novamente.");
-		}
-	};
+	async function handleSignIn(data: SignInForm) {
+		console.log(data);
+		await new Promise((resolve) => setTimeout(resolve, 2000));
+		toast.success("Enviamos um link de autenticação para seu email");
+	}
 
 	return (
-		<div className="flex min-h-screen items-center justify-center bg-gray-100">
-			<div className="w-full max-w-md rounded-lg bg-white p-8 shadow-md">
-				<h1 className="mb-6 text-center font-bold text-2xl">Login</h1>
+		<div className="grid h-screen w-screen grid-cols-1 lg:grid-cols-2">
+			<aside
+				aria-label="pizza shop logo"
+				className="flex flex-col justify-between border-r-foreground bg-muted p-10 text-muted-foreground"
+			>
+				<div className="flex items-center gap-3 text-foreground text-lg">
+					<Pizza className="h-5 w-5" />
+					<span className="font-semibold">Pizza.shop</span>
+				</div>
+				<footer className="text-muted-foreground text-sm">
+					Todos direitos reservados
+				</footer>
+			</aside>
 
-				<form className="space-y-4" onSubmit={handleSubmit}>
-					<div>
-						<label
-							className="block font-medium text-gray-700 text-sm"
-							htmlFor="email"
-						>
-							Email
-						</label>
-						<input
-							className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
-							id="email"
-							onChange={(e) => setEmail(e.target.value)}
-							required
-							type="email"
-							value={email}
-						/>
+			<main className="flex items-center justify-center gap-8 px-10">
+				<section className="w-[60%] space-y-5">
+					<div className="text-center">
+						<h1 className="font-semibold text-2xl tracking-tight">
+							Acessar Painel
+						</h1>
+						<p className="text-muted-foreground text-sm">
+							Acompanhe suas vendas pelo painel parceiro!
+						</p>
 					</div>
-
-					<div>
-						<label
-							className="block font-medium text-gray-700 text-sm"
-							htmlFor="password"
-						>
-							Senha
-						</label>
-						<input
-							className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
-							id="password"
-							onChange={(e) => setPassword(e.target.value)}
-							required
-							type="password"
-							value={password}
-						/>
-					</div>
-
-					{error && (
-						<div className="rounded-md bg-red-50 p-3 text-red-800 text-sm">
-							{error}
+					<form
+						aria-label="Formulário de login"
+						className="space-y-4"
+						onSubmit={handleSubmit(handleSignIn)}
+					>
+						<div className="space-y-2">
+							<Label htmlFor="email">Seu e-mail</Label>
+							<Input
+								autoComplete="email"
+								id="email"
+								placeholder="exemplo@email.com"
+								required
+								type="email"
+								{...register("email")}
+							/>
 						</div>
-					)}
-
-					<Button className="w-full" disabled={isLoading} type="submit">
-						{isLoading ? "Carregando..." : "Entrar"}
-					</Button>
-				</form>
-			</div>
+						<Button className="w-full" disabled={isSubmitting} type="submit">
+							{isSubmitting ? "Acessando..." : "Acessar painel"}
+						</Button>
+					</form>
+					<aside aria-label="link para cadastro de conta" className="text-sm">
+						Não tem uma conta?
+						<Button asChild className="pl-2" variant="ghost">
+							<Link className="hover:underline" to="/sign-up">
+								Cadastre-se
+							</Link>
+						</Button>
+					</aside>
+				</section>
+			</main>
 		</div>
 	);
 }

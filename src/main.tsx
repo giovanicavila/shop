@@ -2,6 +2,9 @@ import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 import { AuthProvider, useAuth } from "./context/auth";
+import "./index.css";
+import { Toaster } from "sonner";
+
 // Import the generated route tree
 import { routeTree } from "./routeTree.gen";
 
@@ -11,6 +14,8 @@ const router = createRouter({
 	context: {
 		auth: undefined as never,
 	},
+	defaultPreload: "intent",
+	defaultNotFoundComponent: () => <div>Not Found</div>,
 });
 
 // Register the router instance for type safety
@@ -33,6 +38,7 @@ if (rootElement && !rootElement.innerHTML) {
 	root.render(
 		<StrictMode>
 			<AuthProvider>
+				<Toaster />
 				<App />
 			</AuthProvider>
 		</StrictMode>
