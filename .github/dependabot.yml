@@ -1,0 +1,52 @@
+# Dependabot configuration
+# Atualiza automaticamente dependências do projeto
+
+version: 2
+updates:
+  # NPM dependencies
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 3
+    reviewers:
+      - "giovanicavila"
+    labels:
+      - "dependencies"
+      - "automated"
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+    groups:
+      # Agrupa atualizações do React
+      react:
+        patterns:
+          - "react*"
+          - "@types/react*"
+      # Agrupa atualizações do Tanstack Router
+      tanstack:
+        patterns:
+          - "@tanstack/*"
+      # Agrupa atualizações do Radix UI
+      radix:
+        patterns:
+          - "@radix-ui/*"
+      # Agrupa ferramentas de desenvolvimento
+      dev-tools:
+        patterns:
+          - "vite*"
+          - "typescript"
+          - "@vitejs/*"
+          - "biome*"
+
+  # GitHub Actions (se você adicionar workflows)
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    open-pull-requests-limit: 2
+    labels:
+      - "github-actions"
+      - "automated"

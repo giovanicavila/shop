@@ -1,0 +1,51 @@
+# Configuração de labels automáticos para PRs
+# Baseado nos arquivos modificados
+
+# Frontend - Components
+"frontend: components":
+  - changed-files:
+    - any-glob-to-any-file: "src/components/**/*"
+
+# Frontend - Pages
+"frontend: pages":
+  - changed-files:
+    - any-glob-to-any-file: "src/pages/**/*"
+
+# Frontend - Styles
+"frontend: styles":
+  - changed-files:
+    - any-glob-to-any-file: 
+      - "src/**/*.css"
+      - "tailwind.config.*"
+
+# Context/State Management
+"state management":
+  - changed-files:
+    - any-glob-to-any-file: "src/context/**/*"
+
+# Configuration
+"config":
+  - changed-files:
+    - any-glob-to-any-file:
+      - "*.config.*"
+      - "tsconfig*.json"
+      - "biome.json"
+
+# Dependencies
+"dependencies":
+  - changed-files:
+    - any-glob-to-any-file:
+      - "package.json"
+      - "bun.lockb"
+
+# Documentation
+"documentation":
+  - changed-files:
+    - any-glob-to-any-file:
+      - "**/*.md"
+      - "docs/**/*"
+
+# CI/CD
+"ci/cd":
+  - changed-files:
+    - any-glob-to-any-file: ".github/**/*"
