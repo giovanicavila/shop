@@ -18,7 +18,7 @@ export function Header() {
 					<nav aria-label="Navegação principal">
 						<ul className="flex list-none items-center gap-6">
 							<li>
-								<NavLink to="/home">
+								<NavLink to="/dashboard">
 									<Home aria-hidden="true" className="h-4 w-4" />
 									Início
 								</NavLink>
