@@ -1,4 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { ChartLineLabel } from "@/components/chart/line-chart";
+import { ChartPieLabel } from "@/components/chart/pie-chart";
 import { DashboardCard } from "./-components/card";
 
 export const Route = createFileRoute("/_authenticated/dashboard/")({
@@ -13,31 +15,37 @@ export const Route = createFileRoute("/_authenticated/dashboard/")({
 
 function RouteComponent() {
 	return (
-		<div className="flex flex-wrap items-center gap-5">
-			<DashboardCard
-				description="R$ 1284,00"
-				percentage="2%"
-				percentageText="em relação ao mês passado"
-				title="Receita total"
-			/>
-			<DashboardCard
-				description="R$ 284,00"
-				percentage="6%"
-				percentageText="em relação ao mês passado"
-				title="Pedidos (mês)"
-			/>
-			<DashboardCard
-				description="R$ 124,00"
-				percentage="-4%"
-				percentageText="em relação a ontem"
-				title="Pedidos (dia) "
-			/>
-			<DashboardCard
-				description="R$ 84,00"
-				percentage="-2%"
-				percentageText="em relação ao mês passado"
-				title="Cancelamento (mês)"
-			/>
+		<div>
+			<div className="flex flex-wrap items-center gap-5">
+				<DashboardCard
+					description="R$ 1284,00"
+					percentage="2%"
+					percentageText="em relação ao mês passado"
+					title="Receita total"
+				/>
+				<DashboardCard
+					description="R$ 284,00"
+					percentage="6%"
+					percentageText="em relação ao mês passado"
+					title="Pedidos (mês)"
+				/>
+				<DashboardCard
+					description="R$ 124,00"
+					percentage="-4%"
+					percentageText="em relação a ontem"
+					title="Pedidos (dia) "
+				/>
+				<DashboardCard
+					description="R$ 84,00"
+					percentage="-2%"
+					percentageText="em relação ao mês passado"
+					title="Cancelamento (mês)"
+				/>
+			</div>
+			<div className="mt-10 flex flex-col flex-wrap gap-8 xl:flex-row">
+				<ChartLineLabel />
+				<ChartPieLabel />
+			</div>
 		</div>
 	);
 }
