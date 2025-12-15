@@ -7,10 +7,10 @@ updates:
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: "monthly"  # Mensal reduz ruído
       day: "monday"
       time: "09:00"
-    open-pull-requests-limit: 3
+    open-pull-requests-limit: 5
     reviewers:
       - "giovanicavila"
     labels:
@@ -20,26 +20,32 @@ updates:
       prefix: "chore"
       include: "scope"
     groups:
-      # Agrupa atualizações do React
-      react:
+      # Agrupa TODAS as atualizações de produção não-major
+      production-dependencies:
+        dependency-type: "production"
+        update-types:
+          - "minor"
+          - "patch"
+      # Agrupa TODAS as atualizações de desenvolvimento
+      development-dependencies:
+        dependency-type: "development"
+        update-types:
+          - "minor"
+          - "patch"
+      # Atualizações major do React ecosystem
+      react-major:
         patterns:
           - "react*"
           - "@types/react*"
-      # Agrupa atualizações do Tanstack Router
-      tanstack:
-        patterns:
-          - "@tanstack/*"
-      # Agrupa atualizações do Radix UI
-      radix:
-        patterns:
-          - "@radix-ui/*"
-      # Agrupa ferramentas de desenvolvimento
-      dev-tools:
-        patterns:
-          - "vite*"
-          - "typescript"
-          - "@vitejs/*"
-          - "biome*"
+        update-types:
+          - "major"
+      # Atualizações major de outras libs importantes
+      major-updates:
+        update-types:
+          - "major"
+        exclude-patterns:
+          - "react*"
+          - "@types/react*"
 
   # GitHub Actions (se você adicionar workflows)
   - package-ecosystem: "github-actions"

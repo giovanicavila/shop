@@ -7,6 +7,7 @@ import {
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import type { AuthContextType } from "@/context/auth";
 import { ThemeProvider } from "@/context/theme-provider";
+import { NotFound } from "./-not-found";
 
 type RouterContext = {
 	auth: AuthContextType;
@@ -30,5 +31,6 @@ export const Route = createRootRouteWithContext<RouterContext>()({
 			});
 		}
 	},
+	notFoundComponent: () => <NotFound />,
 	component: RootLayout,
 });
