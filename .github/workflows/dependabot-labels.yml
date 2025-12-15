@@ -29,18 +29,12 @@ jobs:
               const [_, oldMajor, oldMinor, oldPatch, newMajor, newMinor, newPatch] = match.map(Number);
               
               if (newMajor > oldMajor) {
-                labels.push('semver: major', 'breaking-change', 'needs-review');
+                labels.push('major');
               } else if (newMinor > oldMinor) {
-                labels.push('semver: minor', 'enhancement');
+                labels.push('minor');
               } else if (newPatch > oldPatch) {
-                labels.push('semver: patch', 'bug-fix');
+                labels.push('patch');
               }
-            }
-            
-            // Adiciona label de security se for security update
-            if (title.toLowerCase().includes('security') || 
-                context.payload.pull_request.body?.includes('security')) {
-              labels.push('security', 'priority: high');
             }
             
             if (labels.length > 0) {
