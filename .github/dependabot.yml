@@ -19,6 +19,8 @@ updates:
     commit-message:
       prefix: "chore"
       include: "scope"
+    # Adiciona labels baseadas no tipo de atualização
+    versioning-strategy: auto
     groups:
       # Agrupa TODAS as atualizações de produção não-major
       production-dependencies:

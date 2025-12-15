@@ -1,0 +1,55 @@
+name: "Dependabot PR Labels"
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  label-version:
+    if: github.actor == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: read
+    
+    steps:
+      - name: Add version labels
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = context.payload.pull_request.title;
+            const labels = [];
+            
+            // Detecta tipo de atualização pelo título
+            // Dependabot usa formato: "Bump package from 1.0.0 to 2.0.0"
+            const semverRegex = /from (\d+)\.(\d+)\.(\d+) to (\d+)\.(\d+)\.(\d+)/;
+            const match = title.match(semverRegex);
+            
+            if (match) {
+              const [_, oldMajor, oldMinor, oldPatch, newMajor, newMinor, newPatch] = match.map(Number);
+              
+              if (newMajor > oldMajor) {
+                labels.push('semver: major', 'breaking-change', 'needs-review');
+              } else if (newMinor > oldMinor) {
+                labels.push('semver: minor', 'enhancement');
+              } else if (newPatch > oldPatch) {
+                labels.push('semver: patch', 'bug-fix');
+              }
+            }
+            
+            // Adiciona label de security se for security update
+            if (title.toLowerCase().includes('security') || 
+                context.payload.pull_request.body?.includes('security')) {
+              labels.push('security', 'priority: high');
+            }
+            
+            if (labels.length > 0) {
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.payload.pull_request.number,
+                labels: labels
+              });
+              
+              core.info(`Added labels: ${labels.join(', ')}`);
+            }
