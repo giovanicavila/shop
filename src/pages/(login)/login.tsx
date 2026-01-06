@@ -1,8 +1,10 @@
+import { useMutation } from "@tanstack/react-query";
 import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import { Pizza } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
+import { signIn } from "@/api/sign-in/sign-in";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -40,10 +42,17 @@ function RouteComponent() {
 		formState: { isSubmitting },
 	} = useForm<SignInForm>();
 
+	const { mutateAsync: authenticate } = useMutation({
+		mutationFn: signIn,
+	});
+
 	async function handleSignIn(data: SignInForm) {
-		console.log(data);
-		await new Promise((resolve) => setTimeout(resolve, 2000));
-		toast.success("Enviamos um link de autenticação para seu email");
+		try {
+			await authenticate(data.email);
+			toast.success("Enviamos um link de autenticação para seu email");
+		} catch {
+			toast.error("houve um erro ao enviar o link de autenticação");
+		}
 	}
 
 	return (

@@ -1,12 +1,14 @@
 import { createRouter, RouterProvider } from "@tanstack/react-router";
-import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
+import { StrictMode } from "react";
 import { AuthProvider, useAuth } from "./context/auth";
 import "./index.css";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "sonner";
-
 // Import the generated route tree
 import { routeTree } from "./routeTree.gen";
+
+const queryClient = new QueryClient();
 
 // Create a new router instance
 const router = createRouter({
@@ -37,10 +39,12 @@ if (rootElement && !rootElement.innerHTML) {
 	const root = ReactDOM.createRoot(rootElement);
 	root.render(
 		<StrictMode>
-			<AuthProvider>
-				<Toaster />
-				<App />
-			</AuthProvider>
+			<QueryClientProvider client={queryClient}>
+				<AuthProvider>
+					<Toaster />
+					<App />
+				</AuthProvider>
+			</QueryClientProvider>
 		</StrictMode>
 	);
 }
