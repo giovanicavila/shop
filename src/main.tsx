@@ -1,6 +1,6 @@
 import { createRouter, RouterProvider } from "@tanstack/react-router";
-import ReactDOM from "react-dom/client";
 import { StrictMode } from "react";
+import ReactDOM from "react-dom/client";
 import { AuthProvider, useAuth } from "./context/auth";
 import "./index.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
