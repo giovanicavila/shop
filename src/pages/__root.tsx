@@ -2,7 +2,6 @@ import {
 	createRootRouteWithContext,
 	HeadContent,
 	Outlet,
-	redirect,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import type { AuthContextType } from "@/context/auth";
@@ -24,13 +23,13 @@ function RootLayout() {
 }
 
 export const Route = createRootRouteWithContext<RouterContext>()({
-	beforeLoad: ({ context, location }) => {
+	/* beforeLoad: ({ context, location }) => {
 		if (location.pathname === "/") {
 			throw redirect({
 				to: context.auth.isAuthenticated ? "/dashboard" : "/login",
 			});
 		}
-	},
+	}, */
 	notFoundComponent: () => <NotFound />,
 	component: RootLayout,
 });

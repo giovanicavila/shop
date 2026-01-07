@@ -4,7 +4,7 @@ import { Pizza } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
-import { signIn } from "@/api/sign-in/sign-in";
+import { signIn } from "@/api/login/sign-in";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";

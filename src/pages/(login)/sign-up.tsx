@@ -1,8 +1,13 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { Pizza } from "lucide-react";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 import z from "zod";
+import { useSignUp } from "@/api/login/sign-up/mutations/sign-up-mutations";
+import {
+	Cursor,
+	CursorFollow,
+	CursorProvider,
+} from "@/components/animate-ui/components/animate/cursor";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -32,18 +37,11 @@ function RouteComponent() {
 		handleSubmit,
 		formState: { isSubmitting },
 	} = useForm<SignUpForm>();
-	const navigate = useNavigate();
 
-	const handleSignUp = (data: SignUpForm) => {
-		try {
-			console.log(data);
-			toast.success("Cadastro realizado com sucesso");
-			navigate({
-				to: "/login",
-			});
-		} catch {
-			toast.error("Houve um erro ao realizar o cadastro.");
-		}
+	const { RegisterRestaurant, isLoadingRegisterRestaurant } = useSignUp();
+
+	const handleSignUp = async (data: SignUpForm) => {
+		await RegisterRestaurant(data);
 	};
 
 	return (
@@ -56,6 +54,10 @@ function RouteComponent() {
 					<Pizza className="h-5 w-5" />
 					<span className="font-semibold">Pizza.shop</span>
 				</div>
+				<CursorProvider>
+					<Cursor />
+					<CursorFollow>Mama mia</CursorFollow>
+				</CursorProvider>
 				<footer className="text-muted-foreground text-sm">
 					Todos direitos reservados
 				</footer>
@@ -109,7 +111,11 @@ function RouteComponent() {
 							<Label htmlFor="phone">Telefone</Label>
 							<Input id="phone" required type="text" {...register("phone")} />
 						</div>
-						<Button className="w-full" disabled={isSubmitting} type="submit">
+						<Button
+							className="w-full"
+							disabled={isLoadingRegisterRestaurant}
+							type="submit"
+						>
 							{isSubmitting ? "Finalizando..." : "Finalizar Cadastro"}
 						</Button>
 					</form>

@@ -1,7 +1,7 @@
 import { Home, Pizza, UtensilsCrossed } from "lucide-react";
+import { ThemeTogglerButton } from "../animate-ui/components/buttons/theme-toggler";
 import { AccountMenu } from "../dropdown/account-menu";
 import { NavLink } from "../navlink/nav-link";
-import { ThemeToggle } from "../theme-toggle/theme-toggle";
 import { Separator } from "../ui/separator";
 
 export function Header() {
@@ -33,7 +33,7 @@ export function Header() {
 					</nav>
 				</div>
 				<div className="flex items-center gap-3">
-					<ThemeToggle />
+					<ThemeTogglerButton />
 					<AccountMenu aria-label="Botão de menu de ações" />
 				</div>
 			</div>
