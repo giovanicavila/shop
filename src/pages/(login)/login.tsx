@@ -1,13 +1,12 @@
-import { useMutation } from "@tanstack/react-query";
 import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import { Pizza } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
-import { signIn } from "@/api/login/sign-in";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useSignIn } from "@/api/login/sign-in/mutations/sign-in-mutation";
 
 export const Route = createFileRoute("/(login)/login")({
 	beforeLoad: ({ context }) => {
@@ -42,17 +41,11 @@ function RouteComponent() {
 		formState: { isSubmitting },
 	} = useForm<SignInForm>();
 
-	const { mutateAsync: authenticate } = useMutation({
-		mutationFn: signIn,
-	});
+	const { SignIn, isLoadingSignIn } = useSignIn();
 
 	async function handleSignIn(data: SignInForm) {
-		try {
-			await authenticate(data.email);
-			toast.success("Enviamos um link de autenticação para seu email");
-		} catch {
-			toast.error("houve um erro ao enviar o link de autenticação");
-		}
+		await SignIn(data.email);
+		toast.success("Enviamos um link de autenticação para seu email");
 	}
 
 	return (
@@ -96,7 +89,7 @@ function RouteComponent() {
 								{...register("email")}
 							/>
 						</div>
-						<Button className="w-full" disabled={isSubmitting} type="submit">
+						<Button className="w-full" disabled={isLoadingSignIn} type="submit">
 							{isSubmitting ? "Acessando..." : "Acessar painel"}
 						</Button>
 					</form>
