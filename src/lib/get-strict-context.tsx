@@ -1,5 +1,5 @@
+import type { JSX, ReactNode } from "react";
 import { createContext, useContext } from "react";
-import type { ReactNode, JSX } from "react";
 
 function getStrictContext<T>(
 	name?: string
