@@ -3,6 +3,7 @@ import { Pizza } from "lucide-react";
 import { useForm } from "react-hook-form";
 import z from "zod";
 import { useSignUp } from "@/api/login/sign-up/mutations/sign-up-mutations";
+import pizzaria from "@/assets/pizzaria.svg";
 import {
 	Cursor,
 	CursorFollow,
@@ -45,25 +46,33 @@ function RouteComponent() {
 	};
 
 	return (
-		<div className="grid h-screen w-screen grid-cols-1 lg:grid-cols-2">
+		<div className="relative grid h-screen w-screen grid-cols-1 lg:grid-cols-2">
 			<aside
 				aria-label="pizza shop logo"
-				className="flex flex-col justify-between border-r-foreground bg-muted p-10 text-muted-foreground"
+				className="relative flex flex-col justify-between overflow-hidden rounded-r-10 rounded-r-[80px] bg-muted p-10 text-muted-foreground"
 			>
 				<div className="flex items-center gap-3 text-foreground text-lg">
 					<Pizza className="h-5 w-5" />
 					<span className="font-semibold">Pizza.shop</span>
 				</div>
+				<img
+					alt="pizzaria logo"
+					aria-label="pizzaria logo"
+					className="self-center"
+					height={400}
+					src={pizzaria}
+					width={450}
+				/>
 				<CursorProvider>
 					<Cursor />
-					<CursorFollow>Mama mia</CursorFollow>
+					<CursorFollow>Pizza Shop | Cadastro</CursorFollow>
 				</CursorProvider>
 				<footer className="text-muted-foreground text-sm">
 					Todos direitos reservados
 				</footer>
 			</aside>
 
-			<main className="flex max-w-full items-center justify-center gap-8">
+			<main className="relative flex max-w-full items-center justify-center gap-8">
 				<section className="w-full space-y-5 px-10 2xl:px-48">
 					<div className="text-center">
 						<h1 className="font-semibold text-2xl tracking-tight">

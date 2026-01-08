@@ -4,6 +4,12 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 import { useSignIn } from "@/api/login/sign-in/mutations/sign-in-mutation";
+import pizzaria from "@/assets/pizzaria.svg";
+import {
+	Cursor,
+	CursorFollow,
+	CursorProvider,
+} from "@/components/animate-ui/components/animate/cursor";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -52,12 +58,24 @@ function RouteComponent() {
 		<div className="grid h-screen w-screen grid-cols-1 lg:grid-cols-2">
 			<aside
 				aria-label="pizza shop logo"
-				className="flex flex-col justify-between border-r-foreground bg-muted p-10 text-muted-foreground"
+				className="relative flex flex-col justify-between overflow-hidden rounded-r-10 rounded-r-[80px] bg-muted p-10 text-muted-foreground"
 			>
 				<div className="flex items-center gap-3 text-foreground text-lg">
 					<Pizza className="h-5 w-5" />
 					<span className="font-semibold">Pizza.shop</span>
 				</div>
+				<img
+					alt="pizzaria logo"
+					aria-label="pizzaria logo"
+					className="self-center"
+					height={400}
+					src={pizzaria}
+					width={450}
+				/>
+				<CursorProvider>
+					<Cursor />
+					<CursorFollow>Pizza Shop | login</CursorFollow>
+				</CursorProvider>
 				<footer className="text-muted-foreground text-sm">
 					Todos direitos reservados
 				</footer>
